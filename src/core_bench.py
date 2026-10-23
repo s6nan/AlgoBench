@@ -59,6 +59,6 @@ def run_bench(func_name: str,func: Callable, sizes:list[int]):
 
     
 if __name__ == "__main__":
-    sizes = [1000,2000,4000,8000,10000]
+    sizes = [1000,2000,4000,8000,16000]
     run_bench("fast_fonk",fast_fonk, sizes)
     run_bench("slow_fonk",slow_fonk, sizes)
