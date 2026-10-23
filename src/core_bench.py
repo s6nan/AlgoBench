@@ -1,4 +1,6 @@
 import time
+from typing import Callable
+
 
 def slow_fonk(arr: list[int]) -> bool: #Time Comp -> O(N^2), Space Comp -> O(1)
     n = len(arr) 
@@ -17,7 +19,7 @@ def fast_fonk(arr: list[int]) -> bool: #Time Comp-> O(N), Space Comp -> O(N)
     return False
 
 
-def mesaure_time(func, data: list[int]) -> float: #timer
+def mesaure_time(func: Callable, data: list[int]) -> float: #timer
     start = time.perf_counter()
     
     func(data)
