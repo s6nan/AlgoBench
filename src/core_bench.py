@@ -1,5 +1,6 @@
 import time
 from typing import Callable
+import gc
 
 
 def slow_fonk(arr: list[int]) -> bool: #Time Comp -> O(N^2), Space Comp -> O(1)
@@ -10,6 +11,7 @@ def slow_fonk(arr: list[int]) -> bool: #Time Comp -> O(N^2), Space Comp -> O(1)
                 return True
     return False
 
+
 def fast_fonk(arr: list[int]) -> bool: #Time Comp-> O(N), Space Comp -> O(N)
     seen = set()
     for i in arr:
@@ -19,20 +21,27 @@ def fast_fonk(arr: list[int]) -> bool: #Time Comp-> O(N), Space Comp -> O(N)
     return False
 
 
-def measure_time(func: Callable, data: list[int]) -> float: #timer
-    start = time.perf_counter()
-    
+def measure_time(func: Callable, data: list[int], repeats: int = 5) -> float: #timer 
     func(data)
+    measurements = []
+    for _ in range(repeats):
+        gc.disable()
+        start = time.perf_counter()
+    
+        func(data)
 
-    finish = time.perf_counter()
+        finish = time.perf_counter()
+        gc.enable()
+    
+        measurements.append((finish-start)*1000) #ms
+    return min(measurements)
 
-    return (finish-start)*1000 #ms
 
 def run_bench(func_name: str,func: Callable, sizes:list[int]):
     print(f"Function {func_name} started.\n")
     prev_time = None
     last_ratio = 1.0
-
+    
     for size in sizes:
         data = list(range(size)) # Worst-case scenario: unique elements force complete traversal
         current_time = measure_time(func,data)
