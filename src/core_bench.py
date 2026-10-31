@@ -57,7 +57,7 @@ def measure_time(func: Callable, data: list[int], repeats: int = 5) -> float: #t
 def run_bench(func_name: str,func: Callable, sizes:list[int]):
     print(f"Function {func_name} started.\n")
     prev_time = None
-    last_ratio = 1.0
+    ratios = []
     
     for size in sizes:
         data = list(range(size)) # Worst-case scenario: unique elements force complete traversal
@@ -67,25 +67,29 @@ def run_bench(func_name: str,func: Callable, sizes:list[int]):
             print(f"N = {size}, Time: {current_time:.3f} ms | Baseline\n")
         else:
             ratio = current_time / prev_time
-            last_ratio = ratio
+            ratios.append(ratio)
             print(f"N = {size}, Time: {current_time:.3f} ms | Ratio: {ratio:.2f}x")
         prev_time = current_time
 
-    # Estimate empirical Big-O complexity based on the final growth ratio
-    if last_ratio < 1.3: 
-        complexity = "O(1) or O(log N)"
-    elif 1.3 <= last_ratio < 2.7:
-        complexity = "O(N) or O(N log N)"
-    else:
-        complexity = "O(N^2)"
+    avg_ratio = sum(ratios) / len(ratios) if ratios else 1.0
 
-    print(f"\n>> Estimated Complexity: {complexity}\n")
+    # Estimate empirical Big-O complexity based on the average growth ratio
+    if avg_ratio < 1.5:
+        complexity = "O(1) or O(log N)"
+    elif avg_ratio < 3.0:
+        complexity = "O(N) or O(N log N)"
+    elif avg_ratio < 6.0:
+        complexity = "O(N^2)"
+    else:
+        complexity = "O(N^3) or higher"
+
+    print(f"\n>> Estimated Complexity: {complexity} (Avg Ratio: {avg_ratio:.2f}x)\n")
 
 
 
     
 if __name__ == "__main__":
-    sizes = [1000,2000,4000,8000,16000]
+    sizes = [1000,2000,4000,8000,16000,32000]
     run_bench("fast_func",fast_func, sizes)
     run_bench("slow_func",slow_func, sizes)
     run_bench("bin_search_func", bin_search_func, sizes)
