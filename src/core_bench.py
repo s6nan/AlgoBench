@@ -21,6 +21,23 @@ def fast_fonk(arr: list[int]) -> bool: #Time Comp-> O(N), Space Comp -> O(N)
     return False
 
 
+def bin_search_fonk(arr: list[int]) -> bool: # Time Comp -> O(log N), Space Comp -> O(1)
+    left = 0
+    right = len(arr) - 1
+    while left <= right:
+        mid = (left + right) // 2
+
+        if arr[mid] == -1:
+            return True
+
+        elif arr[mid] < -1:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return False
+
+
 def measure_time(func: Callable, data: list[int], repeats: int = 5) -> float: #timer 
     func(data)
     measurements = []
@@ -71,3 +88,4 @@ if __name__ == "__main__":
     sizes = [1000,2000,4000,8000,16000]
     run_bench("fast_fonk",fast_fonk, sizes)
     run_bench("slow_fonk",slow_fonk, sizes)
+    run_bench("bin_search_fonk", bin_search_fonk, sizes)
