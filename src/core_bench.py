@@ -3,7 +3,7 @@ from typing import Callable
 import gc
 
 
-def slow_fonk(arr: list[int]) -> bool: #Time Comp -> O(N^2), Space Comp -> O(1)
+def slow_func(arr: list[int]) -> bool: #Time Comp -> O(N^2), Space Comp -> O(1)
     n = len(arr) 
     for i in range(n):
         for j in range(i+1,n):
@@ -12,7 +12,7 @@ def slow_fonk(arr: list[int]) -> bool: #Time Comp -> O(N^2), Space Comp -> O(1)
     return False
 
 
-def fast_fonk(arr: list[int]) -> bool: #Time Comp-> O(N), Space Comp -> O(N)
+def fast_func(arr: list[int]) -> bool: #Time Comp-> O(N), Space Comp -> O(N)
     seen = set()
     for i in arr:
         if i in seen:
@@ -21,7 +21,7 @@ def fast_fonk(arr: list[int]) -> bool: #Time Comp-> O(N), Space Comp -> O(N)
     return False
 
 
-def bin_search_fonk(arr: list[int]) -> bool: # Time Comp -> O(log N), Space Comp -> O(1)
+def bin_search_func(arr: list[int]) -> bool: # Time Comp -> O(log N), Space Comp -> O(1)
     left = 0
     right = len(arr) - 1
     while left <= right:
@@ -86,6 +86,6 @@ def run_bench(func_name: str,func: Callable, sizes:list[int]):
     
 if __name__ == "__main__":
     sizes = [1000,2000,4000,8000,16000]
-    run_bench("fast_fonk",fast_fonk, sizes)
-    run_bench("slow_fonk",slow_fonk, sizes)
-    run_bench("bin_search_fonk", bin_search_fonk, sizes)
+    run_bench("fast_func",fast_func, sizes)
+    run_bench("slow_func",slow_func, sizes)
+    run_bench("bin_search_func", bin_search_func, sizes)
